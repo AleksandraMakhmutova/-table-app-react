@@ -10,7 +10,6 @@ selectUserHandle(e.currentTarget.id)
 
 	<>
 	<tbody>
-  
 		{
 			data && data.map(el=>(
 				<tr key={uuid4()} id={el.id} onClick={handleSelectUser} >

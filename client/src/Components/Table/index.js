@@ -7,8 +7,8 @@ import Input from '../Input';
 import TbodyFindUser from './TbodyFindUser';
 import SelectUser from '../SelectUser';
 
-
 function Table() {
+
 
  const [data, setData]=useState(null);
  const [icon, setIcon] = useState('🔺');
@@ -60,7 +60,7 @@ console.log(selectUserInfo);
 		<Input searchTextInTable={searchTextInTable} 
 		errorSearch={errorSearch}/>
 		<div className={style.comteiner}>
-<div className="shadow p-3 mt-5 bg-white rounded">
+<div className="shadow p-3 bg-white rounded">
 <table className="table table-striped table-hover">
 			<thead>
     <tr>
@@ -71,6 +71,7 @@ console.log(selectUserInfo);
       <th scope="col">Phone</th>
     </tr>
   </thead>
+
   {findingUser ? 
     <TbodyFindUser data={findingUser}/>:
 		<Tbody 
