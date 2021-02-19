@@ -1,8 +1,11 @@
 import React from 'react'
-import { v4 as uuid } from 'uuid';
-function Tbody({data}) {
+import {v4 as uuid4} from 'uuid'
 
+function Tbody({data, selectUserHandle}) {
 
+const handleSelectUser = (e) =>{
+selectUserHandle(e.currentTarget.id)
+}
 	return (
 
 	<>
@@ -10,7 +13,7 @@ function Tbody({data}) {
   
 		{
 			data && data.map(el=>(
-				<tr key={`${uuid()}`}>
+				<tr key={uuid4()} id={el.id} onClick={handleSelectUser} >
 				<th scope="row">{el.id}</th>
 				<td>{el.firstName}</td>
 				<td>{el.lastName}</td>

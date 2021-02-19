@@ -5,13 +5,16 @@ import style from "./style.module.css"
 import Tbody from './Tbody';
 import Input from '../Input';
 import TbodyFindUser from './TbodyFindUser';
+import SelectUser from '../SelectUser';
 
 
 function Table() {
-	const [data, setData]=useState(null)
-	const [icon, setIcon] = useState('🔺')
- const [errorSearch, setErrorSearch] = useState('')
- const [findingUser, setFindingUser] = useState('')
+
+ const [data, setData]=useState(null);
+ const [icon, setIcon] = useState('🔺');
+ const [errorSearch, setErrorSearch] = useState('');
+ const [findingUser, setFindingUser] = useState('');
+ const [selectUserInfo, setSelectUserInfo] = useState([]);
 
 	useEffect(()=>{
 		fetch('http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}')
@@ -19,6 +22,7 @@ function Table() {
 		.then(data=> setData(data.sort((a,b)=> a.id - b.id)))
 	},
 	[])
+
 const handleSortIdUpOrDown = () =>{
 	if(data[0].id < data[1].id){
 	setIcon('🔻')
@@ -30,35 +34,33 @@ const handleSortIdUpOrDown = () =>{
 }
 
 
-let newData
-function searchTextInTable(searchText){
-	console.log('searchText',searchText);
-	newData = data.map(el=>(Object.values(el)))
-
- newData.map(el=>{
-		el.filter((userInfo)=>{
-			if(userInfo == searchText){
+const searchTextInTable=(searchText)=>{
+	let newData = data.map(el=>(Object.values(el)))
+  newData.map((el)=>(
+	el.filter((userInfo)=>{
+			if(userInfo === searchText){
 				return setFindingUser(el)
 			}
 			else if(userInfo !== searchText){
-	console.log('searchText',searchText);
 	setErrorSearch('Пользователь не найден')
 	setTimeout(() => {
 		setErrorSearch('')
 	}, 5000);
 			}
 		})
-	})
-
-	console.log(findingUser);
+	))
 }
-console.log(errorSearch);
+
+const selectUserHandle=(id)=>{
+	setSelectUserInfo(data.filter((el)=> el.id == id))
+}
+console.log(selectUserInfo);
 	return(
 		<>
 		<Input searchTextInTable={searchTextInTable} 
 		errorSearch={errorSearch}/>
 		<div className={style.comteiner}>
-<div className="shadow p-3 mt-5 bg-white rounded ">
+<div className="shadow p-3 mt-5 bg-white rounded">
 <table className="table table-striped table-hover">
 			<thead>
     <tr>
@@ -71,17 +73,20 @@ console.log(errorSearch);
   </thead>
   {findingUser ? 
     <TbodyFindUser data={findingUser}/>:
-		<Tbody data={data}/>
+		<Tbody 
+		data={data} 
+		selectUserHandle={selectUserHandle}
+		/>
 	}
-	
-	
 </table>
-
-
 </div>
-
 </div>
 {/* <Pagination /> */}
+
+{
+	selectUserInfo && <SelectUser selectUserInfo={selectUserInfo[0]}/>
+}
+
 </>
 	)
 }
