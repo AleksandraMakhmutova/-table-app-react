@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import AddItemModal from "./AddItemModal";
 import {Button} from "react-bootstrap"
 
-function Input({searchTextInTable, errorSearch}) {
-console.log('errorSearch', errorSearch);
+function Input({searchTextInTable, errorSearch, addNewUserFirst}) {
+
 const [modalShow, setModalShow] = useState(false);
 const [searchText, setSearchText] = useState('')
 
@@ -17,7 +17,9 @@ const searchTextHandle = (e)=>{
 	searchTextInTable(searchText)
 	setSearchText('')
 }
-
+const addNewUser = (firstName, lastName, email, phone)=>{
+	addNewUserFirst(firstName, lastName, email, phone)
+}
 return (
 
 <form >
@@ -37,6 +39,7 @@ return (
 	<AddItemModal 
 	  show={modalShow}
 		onHide={()=>setModalShow(false)}
+		addNewUser={addNewUser}
 	/>
 </form>
 	)

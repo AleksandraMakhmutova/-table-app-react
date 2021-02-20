@@ -1,11 +1,12 @@
 import React from 'react';
-// import Pagination from '../Pagination';
+// import PaginationPart from '../PaginationPart';
 import { useEffect, useState } from 'react';
 import style from "./style.module.css"
 import Tbody from './Tbody';
 import Input from '../Input';
 import TbodyFindUser from './TbodyFindUser';
 import SelectUser from '../SelectUser';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 
 function Table() {
 
@@ -15,6 +16,7 @@ function Table() {
  const [errorSearch, setErrorSearch] = useState('');
  const [findingUser, setFindingUser] = useState('');
  const [selectUserInfo, setSelectUserInfo] = useState([]);
+
 
 	useEffect(()=>{
 		fetch('http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}')
@@ -32,7 +34,6 @@ const handleSortIdUpOrDown = () =>{
 			return setData(prev =>[...prev, prev.sort((a,b)=> a.id - b.id)])
 	}
 }
-
 
 const searchTextInTable=(searchText)=>{
 	let newData = data.map(el=>(Object.values(el)))
@@ -54,11 +55,36 @@ const searchTextInTable=(searchText)=>{
 const selectUserHandle=(id)=>{
 	setSelectUserInfo(data.filter((el)=> el.id == id))
 }
-console.log(selectUserInfo);
+
+const handleClearFindingUser = ()=>{
+	setFindingUser('')
+}
+
+const addNewUserFirst = (firstName, lastName, email, phone)=>{
+const newUser = {
+	id: 101,//придумать Idшник
+	firstName: `${firstName}`, 
+	lastName: `${lastName}`, 
+	email: `${email}`, 
+	phone: `${phone}`,
+  // address: {
+	// 	streetAddress: '9792 Mattis Ct',
+	// 	city: 'Waukesha',
+	// 	state: 'WI',
+	// 	zip: '22178'
+	// },
+	// description: 'et lacus magna dolor...', добавить инпуты для информации
+}
+
+
+
+}
 	return(
 		<>
-		<Input searchTextInTable={searchTextInTable} 
-		errorSearch={errorSearch}/>
+		<Input searchTextInTable={searchTextInTable} errorSearch={errorSearch} addNewUserFirst={addNewUserFirst}/>
+		<Container>
+  <Row>
+    <Col sm={8}>
 		<div className={style.comteiner}>
 <div className="shadow p-3 bg-white rounded">
 <table className="table table-striped table-hover">
@@ -73,20 +99,33 @@ console.log(selectUserInfo);
   </thead>
 
   {findingUser ? 
-    <TbodyFindUser data={findingUser}/>:
+		<>
+    <TbodyFindUser 
+		data={findingUser} 
+		selectUserHandle={selectUserHandle}/>
+		<br/>
+		<Button variant="outline-primary" onClick={handleClearFindingUser}>Назад</Button>
+		</>
+		:
 		<Tbody 
 		data={data} 
 		selectUserHandle={selectUserHandle}
 		/>
+		
 	}
 </table>
 </div>
-</div>
-{/* <Pagination /> */}
-
-{
+</div> 
+</Col>
+  
+	<Col sm={4}>{
 	selectUserInfo && <SelectUser selectUserInfo={selectUserInfo[0]}/>
-}
+}</Col>
+  </Row>
+
+</Container>
+		
+{/* <PaginationPart /> */}
 
 </>
 	)
