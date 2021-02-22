@@ -1,21 +1,20 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Pagination from '@material-ui/lab/Pagination';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
+ function PaginationPart({handleSelectPage}) {
+const handleSelectPageId = (e)=>{
+	const numP = e.target.id
+	handleSelectPage(numP)
+}
 
- function PaginationPart() {
-  const classes = useStyles();
+
   return (
-    <div className={classes.root}>
-      <Pagination count={10} color="secondary" />
-    </div>
+    <nav aria-label="Page navigation example" onClick={handleSelectPageId}>
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="#" id='50'>1</a></li>
+    <li class="page-item"><a class="page-link" href="#" id='100'>2</a></li>
+    <li class="page-item"><a class="page-link" href="#" id='150'>3</a></li>
+  </ul>
+</nav>
   );
 }
 

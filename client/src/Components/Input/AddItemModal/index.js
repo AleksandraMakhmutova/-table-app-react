@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 
 
 function AddItemModal(props) {
-console.log(props);
 const [statusBtn, setStatusBtn] = useState(true);
 
 const [inputs, setInputs] = useState({
@@ -37,10 +36,6 @@ const handleChange= ({ target: { name, value } }) =>{
 		setStatusBtn(false)
 	}
 }
-
-
-	
-
 
 
 const handleSubmit = () =>{

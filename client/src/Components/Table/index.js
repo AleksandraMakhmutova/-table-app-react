@@ -1,5 +1,5 @@
 import React from 'react';
-// import PaginationPart from '../PaginationPart';
+import PaginationPart from '../PaginationPart';
 import { useEffect, useState } from 'react';
 import style from "./style.module.css"
 import Tbody from './Tbody';
@@ -16,23 +16,54 @@ function Table() {
  const [errorSearch, setErrorSearch] = useState('');
  const [findingUser, setFindingUser] = useState('');
  const [selectUserInfo, setSelectUserInfo] = useState([]);
-
-
+ const [selectPage, setSelectPage]= useState(null)
+ const [pageOne, setPageOne] = useState(null)
+ 
 	useEffect(()=>{
-		fetch('http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}')
+		fetch('http://www.filltext.com/?rows=160&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}')
 		.then(res=> res.json())
-		.then(data=> setData(data.sort((a,b)=> a.id - b.id)))
-	},
+		.then(data=> setData(data.sort((a,b)=> a.id - b.id)))	
+},
 	[])
 
+function addPagination(arr,numP){
+ let newArr = []
+	for(let i=numP-50; i < numP; i++){
+		newArr.push(arr[i])
+	}
+	if(newArr.length==50){
+		setPageOne(newArr)
+	}
+
+}
+
+useEffect(()=>{
+	if(data && (selectPage >= 50)){
+addPagination(data, selectPage)
+	}
+
+}, [selectPage])
+
+
 const handleSortIdUpOrDown = () =>{
-	if(data[0].id < data[1].id){
+	if(pageOne === null){
+		if(data[0].id < data[1].id){
 	setIcon('🔻')
 	return 	setData(prev =>[...prev, prev.sort((a,b)=> b.id - a.id)])
 	}else{
 			setIcon('🔺')
 			return setData(prev =>[...prev, prev.sort((a,b)=> a.id - b.id)])
 	}
+	}else if(pageOne.length !== 0){
+		if(pageOne[0].id < pageOne[1].id){
+			setIcon('🔻')
+			return 	setPageOne(prev =>[...prev, prev.sort((a,b)=> b.id - a.id)])
+			}else{
+					setIcon('🔺')
+					return setPageOne(prev =>[...prev, prev.sort((a,b)=> a.id - b.id)])
+			}
+	}
+	
 }
 
 const searchTextInTable=(searchText)=>{
@@ -61,8 +92,9 @@ const handleClearFindingUser = ()=>{
 }
 
 const addNewUserFirst = (firstName, lastName, email, phone, streetAddress, city, state, zip, description)=>{
-const newUser = {
-	id: (Math.floor(Math.random() * 1000)+1),
+const findMinId = data.sort((a,b)=> a.id - b.id)[0].id - 1; //находит значение минимального id в списке и помещает юзера в начало списка
+	const newUser = {
+	id: findMinId,
 	firstName: `${firstName}`, 
 	lastName: `${lastName}`, 
 	email: `${email}`, 
@@ -78,9 +110,14 @@ const newUser = {
 data.unshift(newUser)
 
 }
+
+const handleSelectPage =(numberPage)=>{
+setSelectPage(numberPage)
+}
 	return(
 		<>
 		<Input searchTextInTable={searchTextInTable} errorSearch={errorSearch} addNewUserFirst={addNewUserFirst}/>
+
 		<Container>
   <Row>
     <Col sm={8}>
@@ -107,7 +144,7 @@ data.unshift(newUser)
 		</>
 		:
 		<Tbody 
-		data={data} 
+		data={pageOne ? pageOne : data} 
 		selectUserHandle={selectUserHandle}
 		/>
 		
@@ -123,8 +160,8 @@ data.unshift(newUser)
   </Row>
 
 </Container>
-		
-{/* <PaginationPart /> */}
+	<PaginationPart handleSelectPage={handleSelectPage}/>	
+
 
 </>
 	)

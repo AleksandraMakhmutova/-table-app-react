@@ -5,8 +5,6 @@ function SelectUser({selectUserInfo}){
 	return(
  <>
    <br />
-
-
 {
 selectUserInfo && <Card border="info" style={{ weight: '18rem' }} className='mb-2'>
 	<Card.Header>Выбран пользователь: <b>{selectUserInfo.firstName}{"  "}{selectUserInfo.lastName}</b></Card.Header>
