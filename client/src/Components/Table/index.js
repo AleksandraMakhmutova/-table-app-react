@@ -60,23 +60,22 @@ const handleClearFindingUser = ()=>{
 	setFindingUser('')
 }
 
-const addNewUserFirst = (firstName, lastName, email, phone)=>{
+const addNewUserFirst = (firstName, lastName, email, phone, streetAddress, city, state, zip, description)=>{
 const newUser = {
-	id: 101,//придумать Idшник
+	id: (Math.floor(Math.random() * 1000)+1),
 	firstName: `${firstName}`, 
 	lastName: `${lastName}`, 
 	email: `${email}`, 
 	phone: `${phone}`,
-  // address: {
-	// 	streetAddress: '9792 Mattis Ct',
-	// 	city: 'Waukesha',
-	// 	state: 'WI',
-	// 	zip: '22178'
-	// },
-	// description: 'et lacus magna dolor...', добавить инпуты для информации
+  address: {
+		streetAddress: `${streetAddress}`,
+		city: `${city}`,
+		state: `${state}`,
+		zip: `${zip}`
+	},
+	description: `${description}`, 
 }
-
-
+data.unshift(newUser)
 
 }
 	return(

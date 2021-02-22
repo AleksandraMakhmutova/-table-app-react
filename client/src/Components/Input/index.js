@@ -17,8 +17,8 @@ const searchTextHandle = (e)=>{
 	searchTextInTable(searchText)
 	setSearchText('')
 }
-const addNewUser = (firstName, lastName, email, phone)=>{
-	addNewUserFirst(firstName, lastName, email, phone)
+const addNewUser = (firstName, lastName, email, phone, streetAddress, city, state, zip, description)=>{
+	addNewUserFirst(firstName, lastName, email, phone, streetAddress, city, state, zip, description)
 }
 return (
 
