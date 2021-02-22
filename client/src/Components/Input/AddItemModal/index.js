@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 
 
 function AddItemModal(props) {
+console.log(props);
+const [statusBtn, setStatusBtn] = useState(true);
+
 const [inputs, setInputs] = useState({
 	firstName: '',
 	lastName: '',
@@ -11,14 +14,15 @@ const [inputs, setInputs] = useState({
 	description: '',
 })
 
-const [address, setAddress]=useState({
+const [address, setAddress] = useState({
 	streetAddress: '',
-	 	city: '',
-	 	state: '',
-	 	zip: ''
+	city: '',
+	state: '',
+	zip: ''
 })
 
-const {firstName, lastName, email, phone, streetAddress,  city, state, zip, description} = inputs
+const {firstName, lastName, email, phone, description} = inputs;
+const {streetAddress, city, state, zip } = address;
 
 const handleChange= ({ target: { name, value } }) =>{
 	setInputs({
@@ -29,11 +33,33 @@ const handleChange= ({ target: { name, value } }) =>{
 		...address,
 		[name]:value
 	})
+	if(firstName && lastName && email && phone && streetAddress && city &&  state &&  zip &&  description){
+		setStatusBtn(false)
+	}
 }
+
+
+	
+
+
 
 const handleSubmit = () =>{
 	props.addNewUser(firstName, lastName, email, phone, streetAddress, city, state, zip, description)
-	console.log(firstName, lastName, email, phone,  streetAddress, city, state, zip, description);
+	setInputs({
+		firstName: '',
+		lastName: '',
+		email: '',
+		phone: '',
+		description: '',
+	})
+	setAddress({
+		streetAddress: '',
+		city: '',
+		state: '',
+		zip: ''
+	})
+ props.onHide()
+setStatusBtn(true)
 }
 
 	return (
@@ -58,7 +84,7 @@ const handleSubmit = () =>{
       <Form.Control placeholder="First name" onChange={handleChange} name="firstName" value={firstName}/>
     </Col>
     <Col>
-      <Form.Control placeholder="Last name" onChange={handleChange} name="lastName" value={lastName} />
+      <Form.Control placeholder="Last name" onChange={handleChange} name="lastName" value={lastName}/>
     </Col>
   </Row>
 	<Row className='mt-2'>
@@ -92,7 +118,11 @@ const handleSubmit = () =>{
 </Form>
       </Modal.Body>
       <Modal.Footer>
-			 <Button variant="success" onClick={handleSubmit}>+ Добавить</Button>{' '}
+			{
+				statusBtn ? <Button variant="success" disabled>+ Добавить</Button>:
+				<Button variant="success"  onClick={handleSubmit}>+ Добавить</Button>
+			}
+			 {' '}
         <Button onClick={props.onHide}>Отмена</Button>
       </Modal.Footer>
     </Modal>
