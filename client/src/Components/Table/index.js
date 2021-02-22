@@ -10,7 +10,6 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 
 function Table() {
 
-
  const [data, setData]=useState(null);
  const [icon, setIcon] = useState('🔺');
  const [errorSearch, setErrorSearch] = useState('');
