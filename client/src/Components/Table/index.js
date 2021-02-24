@@ -19,8 +19,8 @@ function Table() {
  const [pageOne, setPageOne] = useState(null)
  
 	useEffect(()=>{
-		fetch('http://www.filltext.com/?rows=160&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}')
-		.then(res=> res.json())
+		fetch('http://localhost:8080/downloadFile')
+		.then(res => res.json())
 		.then(data=> setData(data.sort((a,b)=> a.id - b.id)))	
 },
 	[])
