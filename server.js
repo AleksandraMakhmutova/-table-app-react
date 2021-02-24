@@ -5,7 +5,9 @@ const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const dotenv = require('dotenv');
 dotenv.config()
+
 const app = express();
+
 app.use(express.static(path.resolve('client/build/')))
 
 app.use(bodyParser.urlencoded({ extended: false }));
