@@ -19,13 +19,15 @@ app.get('/downloadFile',async (req, res)=>{
 })
 
 
-const root = path.join(process.env.PWD, 'client', 'build');
-app.use(express.static(root));
+// const root = path.join(process.env.PWD, 'client', 'build');
+// app.use(express.static(root));
 
+// app.get('*', (req, res) => {
+//   res.sendFile('index.html', { root });
+// });
 app.get('*', (req, res) => {
-  res.sendFile('index.html', { root });
-});
-
+	   res.sendFile(path.resolve('client/build/index.html'))
+	 })
 const PORT = 8080
 app.listen(PORT, console.log(`server is work ${PORT}`));
 
