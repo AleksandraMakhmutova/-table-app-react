@@ -19,7 +19,7 @@ function Table() {
  const [pageOne, setPageOne] = useState(null)
  
 	useEffect(()=>{
-		fetch('http://localhost:8080/downloadFile')
+		fetch('/downloadFile')
 		.then(res => res.json())
 		.then(data=> setData(data.sort((a,b)=> a.id - b.id)))	
 },
