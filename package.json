@@ -2,7 +2,7 @@
   "name": "table-app-react",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "build": "cd client && npm install && npm run build",
     "start": "cd client && npm run build && cd .. && node server.js",
